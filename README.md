@@ -42,4 +42,21 @@ NGINX 在处理特定的 rewrite 跳转规则时，请求内容长度计算与�
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/fkj-src/fix_nginx_cve_2026_42945/refs/heads/main/fix_nginx_cve_2026_42945.sh -o /usr/local/bin/fix_nginx_cve.sh && chmod +x /usr/local/bin/fix_nginx_cve.sh && fix_nginx_cve.sh
-```
+```   
+
+
+## nginx无法升级到安全版本  
+
+### 1. 排查并修改高危 rewrite  
+```bash  
+grep -rn "rewrite" /etc/nginx/conf.d/ /etc/nginx/sites-enabled/ 2>/dev/null
+```  
+如果发现有，可以让AI帮忙把rewrite 语句改写为其他等效语句，例如 return  
+
+
+### 2. 确认 ASLR 开启  
+```bash  
+cat /proc/sys/kernel/randomize_va_space
+```    
+返回2为开启。  
+
