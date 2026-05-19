@@ -100,12 +100,28 @@ log_info "升级后版本: $NEW_VER"
 
 if version_ge "$NEW_VER" "$MIN_VERSION"; then
     log_info "✓ 升级成功！版本已修复漏洞。"
-    nginx -t && nginx -s reload
+    if nginx -t; then
+    	if systemctl is-active --quiet nginx; then
+    	    systemctl reload nginx
+    	    log_info "✓ NGINX 配置测试通过，已重载。"
+    	else
+    	    systemctl start nginx
+    	    log_info "✓ NGINX 配置测试通过，已启动。"
+      fi
+    fi
     log_info "✓ NGINX 配置测试通过，已重载。"
 else
     log_err "升级后版本仍低于 $MIN_VERSION，正在恢复备份配置..."
     cp -ra "$BACKUP_DIR"/* "$NGINX_CONF/"
-    nginx -t && nginx -s reload
+    if nginx -t; then
+    	if systemctl is-active --quiet nginx; then
+    	    systemctl reload nginx
+    	    log_info "✓ NGINX 配置测试通过，已重载。"
+    	else
+    	    systemctl start nginx
+    	    log_info "✓ NGINX 配置测试通过，已启动。"
+      fi
+    fi
     log_err "配置已恢复，请手动处理。"
     exit 1
 fi

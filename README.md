@@ -41,8 +41,7 @@ NGINX 在处理特定的 rewrite 跳转规则时，请求内容长度计算与�
 ## 一键安装 & 运行
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yourname/nginx-cve-2026-42945/main/fix_nginx_cve_2026_42945.sh -o /usr/local/bin/fix_nginx_cve.sh
+curl -fsSL https://raw.githubusercontent.com/fkj-src/fix_nginx_cve_2026_42945/refs/heads/main/fix_nginx_cve_2026_42945.sh -o /usr/local/bin/fix_nginx_cve.sh
 chmod +x /usr/local/bin/fix_nginx_cve.sh
 fix_nginx_cve.sh
 ```
-
